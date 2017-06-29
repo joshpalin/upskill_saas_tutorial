@@ -24,13 +24,21 @@ $(document).on('turbolinks:load', function(){
     exp_month: expMonth,
     exp_year: expYear
   }, stripeResponseHandler);
+  
+  return false;
   });
 
+   //Stripe will return a card token.
+  function stripeResponseHandler(status, response) {
+    //Get the token from the response
+    var token = response.id;
+    
+    //Inject card token as hidden field into form. 
+    theForm.append( $('<input type="hidden" name="user[stripe_card_token">').val(token));
 
-
+    //Submit form into our rails app.  
+    theForm.get(0).submit();
+  }
    
-  //Stripe will return a card token.
-  //Inject card token as hidden field into form. 
-  //Submit form into our rails app.
 });
 
